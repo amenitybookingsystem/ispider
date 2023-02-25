@@ -37,6 +37,7 @@ DATE_INPUT_FORMATS = ['%d-%m-%Y, %a']
 
 ALLOWED_HOSTS = [
 'jayendrakamesh2003.pythonanywhere.com',
+'amenitybookingsystem.pythonanywhere.com',
 '127.0.0.1',
 ]
 
