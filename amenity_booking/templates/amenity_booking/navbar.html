@@ -1,0 +1,54 @@
+{% load static %}
+<style>
+*{
+  font-family: Poppins;
+  color: #061F3E !important;
+}
+.logoimg{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  }
+.navstyle{
+  background-color: #E9C46A;
+}
+.spacing{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.button2 {
+  background-color: transparent; 
+  color: #008CBA !important; 
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  color: white !important;
+}
+</style>
+<nav class="navbar navstyle navbar-expand-lg navbar-light">
+  <img src="{% static '/images/logo.jpg' %}" alt="logo" class="logoimg spacing">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link spacing" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link spacing" href="{% url 'about' %}">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link spacing" href="{% url 'contact' %}">Contact Us</a>
+      </li>
+    </ul>
+    
+    <!-- <a class="nav-link" href = "{% url 'login' %}">Login</a> -->
+    <a class="nav-link spacing" href="{% url 'login' %}">
+      <button class="btn spacing button2 btn-outline my-2 my-sm-0">Login</button>
+    </a>
+  </div>
+</nav>

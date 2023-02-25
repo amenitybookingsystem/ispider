@@ -1,0 +1,32 @@
+ body{ 
+    background-color: #061F3E;
+} 
+.h{
+    color: #f9f5f5;
+    
+}
+
+.h1{
+    left: 970px;
+    top: 340px;
+}
+
+p{
+    color: #E9C46A;
+}
+section{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image{
+    padding-right: 15%;
+}
+
+.leaf{
+    margin-top: 10%;
+    padding-left: 5%;
+}
+

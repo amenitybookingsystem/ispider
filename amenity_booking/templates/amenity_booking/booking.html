@@ -1,0 +1,221 @@
+{% extends 'amenity_booking/loginnav.html' %}
+{% block logcontent %}
+{% load static %}
+{% load custom_filters %}
+
+<body>
+    <div class="container-fluid" style="background-color: rgb(248, 214, 64)">
+        <div class="row">
+            <div class="col-lg-4 col-sm-12 mt-0 " style="background-color:rgb(11, 11, 56);">
+                <div class="row">
+                    <u class="h4 mt-3 d-flex justify-content-center mt-4" style="color:antiquewhite !important;"> 
+                        Hello {{user.username}}
+                    </u>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <img src="{% static '/images/football_field.avif' %}" style="width: 250px; height: 120px; border-radius: 25px;">
+                    <p class="h6 mt-3 d-flex justify-content-center mt-2" style="color:antiquewhite !important;"> Football Field
+                    </p>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <img src="{% static '/images/swimming_pool.jpg' %}" style="width: 250px; height: 120px; border-radius: 25px;">
+                    <p class="h6 mt-3 d-flex justify-content-center mt-2" style="color:antiquewhite !important;"> Swimming Pool
+                    </p>
+                </div>
+                <div class="row justify-content-center mt-4 mb-3">
+                    <img src="{% static '/images/tennis_court.png' %}" style="width: 250px; height: 120px; border-radius: 25px;">
+                    <p class="h6 mt-3 d-flex justify-content-center mt-2" style="color:antiquewhite !important;"> Tennis Court
+                    </p>
+                </div>
+            </div>
+            <div class="col mb-5">
+                <div class="row">
+                    <p class="h3 mt-4 d-flex justify-content-center mb-3" style="color:rgb(2, 3, 63);"> Book Your Slot
+                    </p>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="card mt-2" style="width: 36rem; opacity: 80%;">
+                        <div class="card-body">
+                            <form class="row g-3" method="POST" action="{% url 'savebook' %}">
+                                {% csrf_token %}
+                                <div class="form-group col-md-6">
+                                    <label for="amenity">Choose Amenity *</label>
+                                    <select id="amenity" name="amenity" onchange="amenityfield()" style="border-radius: 40px;" class="form-control" required>
+                                      <option value="" selected disabled>Choose Amenity</option>
+                                      {% for i in amenity %}
+                                      {% if i.name in no %}
+                                      <option value="{{i.name}}" disabled>{{i.name}}</option>
+                                      {% else %}
+                                      <option value="{{i.name}}" {% if request.GET.amenity == i.name %}selected{% endif %}>{{i.name}}</option>
+                                      {% endif %}
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label for="date">Select Date *</label>
+                                <select id="date" name="date" onchange="datefield()" style="border-radius: 40px;" class="form-control" required>
+                                  <option value="" selected disabled>Choose date</option>
+                                  {% for i in amenity %}
+                                  {% if dateid is not None and request.GET.amenity == i.name %}
+                                  <option value="{{dateid}}" {% if request.GET.date == dateid %}selected{% endif %}>{{dateid}}</option>
+                                  {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="slot">Select Slot *</label>
+                            <select id="slot" name="slot" onchange="slotfield()" style="border-radius: 40px;" class="form-control" required>
+                              <option value="" selected disabled>Choose Slots</option>
+                              {% for i in slot %}
+                              <option value="{{i.slot}}" {% if request.GET.slot == i.slot %}selected{% endif %}>{{i.slot}}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="timing">Select Time *</label>
+                        <select id="timing" name="timing" onchange="timefield()" style="border-radius: 40px;" class="form-control" required>
+                          <option value="" selected disabled>Choose Timing</option>
+                          {% for i in timing %}
+                          <option value="{{i.timing}}" {% if request.GET.timing == i.timing %}selected{% endif %}>{{i.timing}}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                        <label for="space">Available {% if available > 0 %} {{available}}/{{total}}{% endif %} *</label>
+                        <select id="space" name="space" onchange="spacefield()" style="border-radius: 40px;" class="form-control" required>
+                            {% if temm == 0 %}
+                                <option value="{{available}}" selected>{{available}}</option>
+                            {% else %}
+                                {% for x in 1|create_range:available %}
+                                    <option value="{{x}}" {% if request.GET.space|stringformat:"s" == x|stringformat:"s" %}selected{% endif %}>{{x}}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                  <div class="col-md-6">
+                    <label for="name" class="form-label">Name *</label>
+                    <input type="text" placeholder="Name" name="name" required class="form-control" id="name">
+                </div>
+                <div class="col-md-6">
+                    <label for="apt_no" class="form-label">Apartment No *</label>
+                    <input type="text" placeholder="Apartment No" name="apt_no" required class="form-control" id="apt_no">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="partner_name" class="form-label">Parnter's Name *</label>
+                    {% if form.partner_name %}
+                    <input type="text" value="{{ form.partner_name }}" name="partner_name" class="form-control" id="partner_name">
+                    {% else %}
+                    <input type="text" placeholder="Partner's Name" name="partner_name" class="form-control" id="partner_name">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label for="partner_apt_no" class="form-label">Partner's apartment no *</label>
+                    {% if form.partner_apt_no %}
+                    <input type="text" value="{{ form.partner_apt_no }}" name="partner_apt_no" class="form-control" id="partner_apt_no">
+                    {% else %}
+                    <input type="text" placeholder="Partner's Apartment No" name="partner_apt_no" class="form-control" id="partner_apt_no">
+                    {% endif %}
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="payment" id="payment" value="cash" required>
+                        Cash
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="payment" id="payment" value="online" required>
+                        Online payment
+                    </label>
+                </div>
+                <div class="col-12">
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-2">Book Now</button>
+                        {% if n != 'Here is your booking !' %}
+                        <p style="color:hsl(22, 92%, 40%) !important">{{n}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <p style="font-size: 12px;">Note : Bookings without partner from the same apartment will require additional charges.</p>
+
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script>
+    function amenityfield(){
+        amenityid = document.getElementById('amenity').value;
+        window.location = "/?amenity="+amenityid;
+    }
+    function datefield(){
+     dateid = document.getElementById('date').value;
+     window.location = "/?amenity="+'{{request.GET.amenity}}'+"&date="+dateid;
+ }
+ function slotfield(){
+     slotid = document.getElementById('slot').value;
+     window.location = "/?amenity="+'{{request.GET.amenity}}'+"&date="
+     +'{{request.GET.date}}'+"&slot="+slotid;
+ }
+ function timefield(){
+     timeid = document.getElementById('timing').value;
+     window.location = "/?amenity="+'{{request.GET.amenity}}'+"&date="
+     +'{{request.GET.date}}'+"&slot="+'{{request.GET.slot}}'+"&timing="+timeid;
+ }
+ function spacefield(){
+     spaceid = document.getElementById('space').value;
+     window.location = "/?amenity="+'{{request.GET.amenity}}'+"&date="
+     +'{{request.GET.date}}'+"&slot="+'{{request.GET.slot}}'+"&timing="+'{{request.GET.timing}}'
+     +"&space="+spaceid;
+ }
+</script>
+
+<script>
+    let days = [];
+    let daysRequired = 14
+    for (let i = 0; i <= daysRequired; i++) {
+        days.push( moment().add(i, 'days').format('DD/MM/YY, dddd') )
+    }
+    console.log(days)
+    var select = document.getElementById("date");
+    for(let i = 1; i <= daysRequired; i++)
+    {
+     var option = document.createElement("OPTION"),
+     txt = document.createTextNode(days[i]);
+     option.appendChild(txt);
+     option.setAttribute("value",days[i]);
+     select.insertBefore(option,select.lastChild);
+ }
+ var select = document.getElementById("datee");
+ for(let i = 1; i <= daysRequired; i++)
+ {
+     var option = document.createElement("OPTION"),
+     txt = document.createTextNode(days[i]);
+     option.appendChild(txt);
+     option.setAttribute("value",days[i]);
+     select.insertBefore(option,select.lastChild);
+ }
+
+
+</script>
+
+
+</body>
+{% endblock %}

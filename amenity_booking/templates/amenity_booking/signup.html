@@ -1,0 +1,324 @@
+{% extends 'amenity_booking/main.html' %}
+{% block content %}
+{% load static %}
+<style>
+body{
+    background-color:#061F3E;
+  }
+section{
+  padding-top: 5%;
+}
+  #radius-shape-1 {
+    height: 220px;
+    width: 220px;
+    top: -60px;
+    left: -130px;
+    background: radial-gradient(#061F3E, #E9C46A);
+    overflow: hidden;
+  }
+  h1{
+    color: aliceblue !important;
+  }
+  p{
+    color: aliceblue !important;
+  }
+  #radius-shape-2 {
+    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+    bottom: -60px;
+    right: -110px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(#061F3E, #E9C46A);
+    overflow: hidden;
+  }
+  .bg-glass {
+    background-color: hsla(0, 0%, 100%, 0.9) !important;
+    backdrop-filter: saturate(200%) blur(25px);
+  }
+
+.contact{
+    position: relative;
+    min-height: 90vh;
+    padding: 50px 100px;
+    display:flex ;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background:#061F3E;
+    
+}
+
+.contact .content{
+    max-width: 800px;
+    text-align: center;
+
+}
+
+.contact .content h2{
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #E9C46A;
+}
+
+.Container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container .ContactInfo{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Container .ContactInfo .box{
+    position: relative;
+    padding: 20px 0;
+    display: flex;
+}
+
+.Container .ContactInfo .box .icon{
+    min-width: 60px;
+    height: 60px;
+    background: #E9C46A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 22px;
+}
+
+.Container .ContactInfo .box .text{
+    display: flex;
+    margin-left: 20px;
+    font-size: 16px;
+    color: #E9C46A;
+    flex-direction: column;
+    font-weight: 300;
+}
+
+.Container .ContactInfo .box .text h3{
+    font-weight: 300;
+    color: #00bcd4;
+
+}
+
+.contactform{
+    width: 40%;
+    padding: 40px;
+    background: #fff;
+}
+
+.contactform h2{
+    font-size:30px ;
+    color: #333;
+    font-weight: 500;
+}
+
+.contactform .inputBox{
+    position: relative;
+    width: 100%;
+}
+
+.contactform .inputBox input,
+.contactform .inputBox textarea
+{
+    width:100% ;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-bottom:2px solid black ;
+    outline: none;
+    resize: none;
+}
+
+.contactform .inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    pointer-events: none;
+    transition: 0.5s;
+    color: #666;
+}
+
+.contactform .inputBox input:focus ~ span,
+.contactform .inputBox input:valid ~ span,
+.contactform .inputBox textarea:focus ~ span,
+.contactform .inputBox textarea:valid ~ span{
+    color: #e91e63;
+    font-size: 12px;
+    transform: translateY(-20px);
+}
+
+.contactform .inputBox input[type="submit"]{
+    width: 100px;
+    background: #00bcd4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+}
+
+@media (max-width:991px){
+    .contact{
+        padding: 50px;
+    }
+    .Container{
+        flex-direction: column;
+    }
+
+    .Container .ContactInfo{
+        margin-bottom: 40px;
+    }
+    .Container .ContactInfo,
+    .contactform{
+        width: 100%;
+    }
+    .background-radial-gradient {
+        background-color: hsl(213, 82%, 13%, 0.999);
+        background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(213, 82%, 13%) 15%,
+            hsl(213, 77%, 14%) 35%,
+            hsl(213, 85%, 13%) 40%,
+            hsl(213, 72%, 13%) 85%,
+            transparent 100%),
+          radial-gradient(1250px circle at 100% 100%,
+            hsl(213, 82%, 13%) 15%,
+            hsl(213, 82%, 13%) 35%,
+            hsl(213, 82%, 13%) 75%,
+            hsl(213, 82%, 13%) 80%,
+            transparent 100%);
+      }
+
+      #radius-shape-1 {
+        height: 220px;
+        width: 220px;
+        top: -60px;
+        left: -130px;
+        background: radial-gradient(#061F3E, #E9C46A);
+        overflow: hidden;
+      }
+
+      #radius-shape-2 {
+        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+        bottom: -60px;
+        right: -110px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(#061F3E, #E9C46A);
+        overflow: hidden;
+      }
+
+      .bg-glass {
+        background-color: hsla(0, 0%, 100%, 0.9) !important;
+        backdrop-filter: saturate(200%) blur(25px);
+      }
+
+      section {
+        min-height: 100vh;
+      }
+}
+</style>
+<body>
+  <!-- Section: Design Block -->
+  <section class="vh-90">
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+      <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+          <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(0, 0%, 0%)">
+            The best offer <br />
+          </h1>
+          <p class="mb-4 opacity-70" style="color: hsl(0, 0%, 0%)">
+            Sign up with our apartments.
+          </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+          <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+          <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+          <div class="card bg-glass">
+            <div class="card-body px-4 py-5 px-md-5">
+              <form method="post" action="{% url 'savesign' %}" id="signup">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" name="first_name" class="form-control error" value="{{ form.first_name }}" placeholder="First name" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" name="last_name" class="form-control error" value="{{ form.last_name }}" placeholder="Last name" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" name="username" class="form-control error" value="{{ form.username }}" placeholder="Username" required >
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text"   name="apt_no" class="form-control error" value="{{ form.apt_no }}" placeholder="Apartment No" required  />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-outline mb-2">
+                  <input type="email" name="email" class="form-control error" value="{{ form.email }}" placeholder="Email address" required/><br>
+                  
+
+                </div>
+                <div class="form-outline mb-4">
+                  <input type="text"   name="phone" class="form-control error" value="{{ form.phone }}" placeholder="Phone Number" />
+                 
+
+                </div>
+                <div class="form-outline mb-4">
+                  <input type="password" name="password" class="form-control error" value="{{ form.password }}" placeholder="Password" required />
+              
+
+                
+                </div>
+
+                <!-- Checkbox -->
+
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">
+                  Sign up
+                </button> <br>
+
+                <p style="font-size: 15px; color: black !important;">Note : The information you have provided must be registered in our apartment database.</p>
+                
+                <div>
+                  <p style="color:hsl(0, 92%, 40%) !important">{{n}}</p>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+// function clearErrorField() {
+//     document.getElementById("error-field").value = "";
+//   }
+
+//   document.getElementById("signup").onsubmit = clearErrorField;
+
+</script>
+
+</body>
+{% endblock %}

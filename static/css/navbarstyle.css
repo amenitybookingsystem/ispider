@@ -1,0 +1,21 @@
+*{
+  font-family: monospace;
+  color: #061F3E;
+}
+.logoimg{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  }
+.navstyle{
+  background-color: #E9C46A;
+}
+.spacing{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.sibutton {
+  background-color: #061F3E !important;
+  color: white !important;
+  border-radius: 20px;
+}

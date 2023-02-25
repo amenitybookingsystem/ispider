@@ -1,0 +1,233 @@
+{% extends 'amenity_booking/main.html' %}
+{% block content %}
+{% load static %}
+
+    <script src="https://kit.fontawesome.com/14e3caaa34.js" crossorigin="anonymous"></script>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: poppins;
+
+}
+
+.color-text{
+    color: #E9C46A !important;
+}
+
+.contact{
+    position: relative;
+    min-height: 80vh;
+    padding: 100px 100px;
+    display:flex ;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background:#061F3E;
+    
+}
+
+.contact .content{
+    max-width: 800px;
+    text-align: center;
+
+}
+
+.contact .content h2{
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #E9C46A;
+}
+
+.contact .content p{
+    
+    font-weight: 500;
+    color: #E9C46A;
+}
+
+.Container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.Container .ContactInfo{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Container .ContactInfo .box{
+    position: relative;
+    padding: 20px 0;
+    display: flex;
+}
+
+.Container .ContactInfo .box .icon{
+    min-width: 60px;
+    height: 60px;
+    background: #E9C46A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 22px;
+}
+
+.Container .ContactInfo .box .text{
+    display: flex;
+    margin-left: 20px;
+    font-size: 16px;
+    color: #E9C46A;
+    flex-direction: column;
+    font-weight: 300;
+}
+
+.Container .ContactInfo .box .text h3{
+    font-weight: 300;
+    color: #00bcd4;
+
+}
+
+.contactform{
+    width: 40%;
+    padding: 40px;
+    background: #fff;
+}
+
+.contactform h2{
+    font-size:30px ;
+    color: #333;
+    font-weight: 500;
+}
+
+.contactform .inputBox{
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.contactform .inputBox input,
+.contactform .inputBox textarea
+{
+    width:100% ;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-bottom:2px solid black ;
+    outline: none;
+    resize: none;
+}
+
+.contactform .inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    pointer-events: none;
+    transition: 0.5s;
+    color: #666;
+}
+
+.contactform .inputBox input:focus ~ span,
+.contactform .inputBox input:valid ~ span,
+.contactform .inputBox textarea:focus ~ span,
+.contactform .inputBox textarea:valid ~ span{
+    color: #667992;
+    font-size: 12px;
+    transform: translateY(-20px);
+}
+
+.contactform .inputBox input[type="submit"]{
+    width: 100px;
+    background: #00bcd4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+}
+
+@media (max-width:991px){
+    .contact{
+        padding: 50px;
+    }
+    .Container{
+        flex-direction: column;
+    }
+
+    .Container .ContactInfo{
+        margin-bottom: 40px;
+    }
+    .Container .ContactInfo,
+    .contactform{
+        width: 100%;
+    }
+}
+    </style>
+
+<body>
+    <section class="contact">
+        <div class="content color-text">
+            <h2 class="color-text">Get in Touch With Us</h2>
+            
+        </div>
+        <div class="Container">
+            <div class="ContactInfo">
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-map-pin"></i></div>
+                    <div class="text">
+                        <h3 class="color-text">Address</h3>
+                        <p class="color-text">No:5 Apt name,<br>Anna Nagar,Chennai,<br>602105</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="text">
+                        <h3 class="color-text">Email Address</h3>
+                        <p class="color-text">apartment@gmail.com</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="icon"><i class="fa fa-phone" aria-hidden="true"></i></div>
+                    <div class="text">
+                        <h3 class="color-text">Phone</h3>
+                        <p class="color-text">12345 67890</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contactform">
+                <form action="{% url 'save_Contact' %}" method="POST">
+                    {% csrf_token %}
+                    <h2>Send Message</h2>
+                    <div class="inputBox">
+                        <input type="text" name="name" required>
+                        <span>Full Name</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="email" name="email" required>
+                        <span>Email</span>
+                    </div>
+                    <div class="inputBox">
+                        <textarea required name="message"></textarea>
+                        <span>Type your Message...</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="send">
+                    </div>
+                    <p style="color: aqua;">
+                    {{m}}
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+</body>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'amenity_booking/main.html' %}
+
+{% block content %}
+{% load static %}
+
+<style>
+  .row{
+    margin: 0px !important;
+  }
+  .container-fluid {
+    padding: 60px 50px;
+    padding-top: 5%;
+    background-color: #E9C46A;
+  }
+  #about{
+    padding-left: 50px;
+  }
+  .leaf{
+    background-color: #061F3E;
+  }
+  .image{
+    height: 700px;
+    width: auto;
+  }
+
+  @media (max-width: 768px) {
+    .leaf{
+      padding: 20px;
+    }
+    .image{
+      height: auto;
+      width: 100%;
+    }
+  }
+
+</style>
+
+<body>
+  <div class="row leaf justify-content-center p-5">
+    <div class="col-12 col-md-6">
+      <h1 class="ms-5 mt-5" style="color: #d5d755 !important;">ABOUT US</h1>
+      <p class="ms-5 mt-5" style="color: white !important;">
+        Fitness center: Many hotels provide a fitness center for guests to use during their stay. These centers typically include cardio equipment, weight machines, and free weights to help guests stay active and healthy.
+
+        Swimming pool: A swimming pool is a popular amenity for guests looking to relax and cool off. Many hotels have indoor or outdoor pools and some also have a hot tub or spa for guests to enjoy.
+
+        Business center: Many hotels provide a business center for guests to use. These centers typically include computers, printers, and other office equipment for guests to use for work or personal use.
+
+        WiFi: High-speed WiFi is a must-have amenity for many guests. Most hotels offer free WiFi throughout the property so that guests can stay connected and be productive during their stay.
+
+        Laundry service: Laundry service is a convenient amenity that many hotels offer. Guests can drop off their laundry at the hotel and have it washed and folded while they are out exploring the city.
+
+        Parking: Parking is an important amenity for guests who are driving to the hotel. Many hotels offer on-site parking, either free of charge or for a fee.
+
+        Concierge service: A concierge service is a helpful amenity that many hotels offer. This service can provide guests with information about local events and attractions, as well as make reservations for restaurants, shows, and transportation.
+      </p>
+    </div>
+    <div class="col-12 col-md-6 align-items-center">
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/static/images/about3.jpg" class="d-block image w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/images/about2.webp" class="d-block image w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/images/about1.jpg" class="d-block image w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden d-none d-md-inline-block">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden d-none d-md-inline-block">Next</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</body>
+{% endblock %}
