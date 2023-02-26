@@ -472,6 +472,8 @@ def booking(request):
         today = cdate.today()
         d3 = today.strftime("%m%y%d")
         d3 = int(d3)
+        print(x)
+        print(d3)
 
         if(x>d3):
             no.append(i.amenity_name)
