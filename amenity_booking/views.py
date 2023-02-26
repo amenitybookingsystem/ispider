@@ -265,31 +265,29 @@ def activate(request, uidb64, token):
 
 def email_password(request):
 
-    try:
-        current_site = get_current_site(request)
-        email = request.POST.get('email')
-        myuser = User.objects.get(email=email)
+    
+    current_site = get_current_site(request)
+    email = request.POST.get('email')
+    myuser = User.objects.get(email=email)
 
-        email_subject = "Reset your password"
-        message = render_to_string('amenity_booking/email_password.html',{
-            'name': myuser.first_name,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
-            'token': generate_token.make_token(myuser)
-            })
-        email = EmailMessage(
-            email_subject, message,
-            settings.EMAIL_HOST_USER, [myuser.email],
-            )
-        email.fail_silently = True
-        email.send()
+    email_subject = "Reset your password"
+    message = render_to_string('amenity_booking/email_password.html',{
+        'name': myuser.first_name,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+        'token': generate_token.make_token(myuser)
+        })
+    email = EmailMessage(
+        email_subject, message,
+        settings.EMAIL_HOST_USER, [myuser.email],
+        )
+    email.fail_silently = True
+    email.send()
 
-        n = "Password reset link sent to your mail !"
-        return render(request, 'amenity_booking/login.html',{'n':n})
+    n = "Password reset link sent to your mail !"
+    return render(request, 'amenity_booking/login.html',{'n':n})
 
-    except:
-        n = "Invalid / Unregistered email id"
-        return render(request, 'amenity_booking/forgot_password.html',{'n':n})
+    
 
 
 
@@ -614,15 +612,16 @@ def saveBook(request):
         request.session['n'] = n
         return redirect(booking)
 
-    if(partner_name!='')or(partner_apt_no!=''):
-        amount = 100
-    else:
-        amount = 250
 
     base = amenity_type.objects.get(name=amenity_name)
+    amount = 0
 
     amount = int(amount)
     amount = amount + int(base.base_rate) + int(base.extra_rate_per_person)*int(space)
+
+    if(partner_name=='')or(partner_apt_no==''):
+        amount = amount + 100 
+    
 
     if(payment=='cash'):
         payment_status = 'Pending'

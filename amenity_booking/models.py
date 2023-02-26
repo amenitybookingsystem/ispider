@@ -102,15 +102,33 @@ class master(models.Model):
     apt_no = models.CharField(max_length=3, primary_key=True, validators=[validate_apt_no])
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30,blank=True)
-    phone = models.CharField(max_length=10, validators=[validate_phone])
-    email = models.CharField(max_length=50, validators=[validate_email])
+    phone = models.CharField(max_length=10)
+    email = models.CharField(max_length=50)
 
 
     def __str__ (self):
         return self.first_name
 
     class Meta:
-        verbose_name_plural = "Master Table"
+        verbose_name_plural = "1) Master Table"
+
+    def clean(self):
+        data = self.phone
+        data2 = self.email
+        if(data.isdigit() and len(data)==10):
+            if (master.objects.filter(phone=data).exclude(pk=self.pk)).exists():
+                raise forms.ValidationError('Phone number already exists in master')
+        else:
+            raise forms.ValidationError('Please give a valid mobile number')
+
+        if (master.objects.filter(email=data2).exclude(pk=self.pk)).exists():
+            raise forms.ValidationError('Email id already exists in master')
+
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if(re.fullmatch(regex, data2)):
+            return data2
+        else:
+            raise forms.ValidationError('Please give a valid email id')
 
     
 
@@ -118,7 +136,7 @@ class signup_table(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30,blank=True)
     username = models.CharField(max_length=16)
-    apt_no = models.CharField(max_length=3)
+    apt_no = models.CharField(max_length=3, validators=[validate_apt_no])
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=10,blank=True)
 
@@ -126,7 +144,25 @@ class signup_table(models.Model):
         return self.first_name
 
     class Meta:
-        verbose_name_plural = "Signup Table"
+        verbose_name_plural = "2) Signup Table"
+
+    def clean(self):
+        data = self.phone
+        data2 = self.email
+        if(data.isdigit() and len(data)==10):
+            if (signup_table.objects.filter(phone=data).exclude(pk=self.pk)).exists():
+                raise forms.ValidationError('Phone number already exists in signup table')
+        else:
+            raise forms.ValidationError('Please give a valid mobile number')
+
+        if (signup_table.objects.filter(email=data2).exclude(pk=self.pk)).exists():
+            raise forms.ValidationError('Email id already exists in Signup table')
+
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if(re.fullmatch(regex, data2)):
+            return data2
+        else:
+            raise forms.ValidationError('Please give a valid email id')
 
 class contact_table(models.Model):
     name = models.CharField(max_length=30)
@@ -137,7 +173,7 @@ class contact_table(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Contact Table"
+        verbose_name_plural = "4) Contact Table"
 
 TIMING_CHOICE = [('12AM-1AM', '12AM-1AM'),                 
                 ('1AM-2AM', '1AM-2AM'),                 
@@ -194,11 +230,11 @@ class booking_table(models.Model):
         return self.name + " - " + self.amenity_name + " - " + self.date + " - " + self.slot
 
     class Meta:
-        verbose_name_plural = "Bookings Table"
+        verbose_name_plural = "3) Bookings Table"
 
 
 class amenity_type(models.Model):
-    name = models.CharField(max_length=100, blank=True, null=True, validators=[validate_amenity])
+    name = models.CharField(max_length=100, blank=True, null=True)
     housing_space = models.IntegerField(default=0, validators=[validate_space])
     allow_multiple_bookings = models.BooleanField(default=False)
     base_rate = models.IntegerField(default=0, validators=[validate_space])
@@ -207,19 +243,33 @@ class amenity_type(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Amenity Name Table"
+        verbose_name_plural = "5) Amenity Name Table"
+
+    def clean(self):
+        n = self.name
+        other = amenity_type.objects.all().exclude(pk=self.pk)
+        for x in other:
+            if((x.name.lower()).replace(' ','')==(n.lower()).replace(' ','')):
+                raise forms.ValidationError('Amenity already exists !')
 
 class amenity_slots(models.Model):
-    amenity_name = models.ForeignKey(amenity_type, on_delete=models.CASCADE, null=True, validators=[validate_slots])
+    amenity_name = models.ForeignKey(amenity_type, on_delete=models.CASCADE, null=True)
     slot = models.CharField(max_length=100, blank=True, null=True)
 
 
     class Meta:
-        verbose_name_plural = "Amenity Slots Table"
+        verbose_name_plural = "6) Amenity Slots Table"
         unique_together = (("amenity_name", "slot"),)
 
     def __str__(self):
         return self.amenity_name.name + " - " + self.slot
+
+    def clean(self):
+        n = self.slot
+        other = amenity_slots.objects.all().exclude(pk=self.pk)
+        for x in other:
+            if((x.slot.lower()).replace(' ','')==(n.lower()).replace(' ','')):
+                raise forms.ValidationError('Slot already exists !')
 
 
 class amenity_timings(models.Model):
@@ -227,7 +277,7 @@ class amenity_timings(models.Model):
     timing = models.CharField(max_length=100, choices=TIMING_CHOICE, blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "Amenity Timing Table"
+        verbose_name_plural = "7) Amenity Timing Table"
         unique_together = (("amenity_name", "timing"),)
 
     def __str__(self):
@@ -235,6 +285,9 @@ class amenity_timings(models.Model):
 
 class uidtable(models.Model):
     unique = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "System Info 1"
 
 class filled(models.Model):
     amenity_name = models.CharField(max_length=100, blank=True, null=True)
@@ -245,13 +298,17 @@ class filled(models.Model):
     available_space = models.IntegerField(blank=True, null=True)
     booking_id = models.CharField(max_length=100, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = "System Info 2"
+
 class amenity_maintenance(models.Model):
     slot= models.ForeignKey(amenity_slots, on_delete=models.CASCADE, null=True)
     time = models.ForeignKey(amenity_timings, on_delete=models.CASCADE, null=True)
     date = models.DateField(validators=[validate_date])
 
     class Meta:
-        verbose_name_plural = "Amenity Maintenance Table"
+        verbose_name_plural = "8) Amenity Maintenance"
+        unique_together = (("slot", "time","date"),)
 
     def __str__(self):
         return self.slot.__str__() + " - " + self.time.__str__()

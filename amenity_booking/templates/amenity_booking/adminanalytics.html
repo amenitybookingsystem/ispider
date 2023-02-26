@@ -24,8 +24,9 @@
                                     <th scope="col">Slot</th>
                                     <th scope="col">Time</th>
                                     <th scope="col">Amount</th>
+                                    <th scope="col">Seats</th>
                                     <th scope="col">Payment Status</th>
-                                    <th scope="col">Payment Method</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,14 +42,14 @@
                                     <th>{{i.slot}}</th>
                                     <th>{{i.time}}</th>
                                     <th>{{i.amount}}</th>
-
+                                    <th>{{i.space}}</th>
                                     {% if i.payment_status == "Paid" %}
                                         <th style="color:green !important">{{ i.payment_status }}</th>
                                     {% else %}
                                         <th style="color: red !important">{{ i.payment_status }}</th>
                                     {% endif %}
 
-                                    <th>{{i.payment_method}}</th>
+                                    
                                 </tr>
                                 {% endfor %} 
                             </tbody>

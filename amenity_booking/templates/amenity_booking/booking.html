@@ -82,7 +82,7 @@
                       </select>
                   </div>
                   <div class="form-group col-md-4">
-                        <label for="space">Available {% if available > 0 %} {{available}}/{{total}}{% endif %} *</label>
+                        <label for="space">Available {% if available > 0 %} {{available}}/{{total}} {% else %} None {% endif %} *</label>
                         <select id="space" name="space" onchange="spacefield()" style="border-radius: 40px;" class="form-control" required>
                             {% if temm == 0 %}
                                 <option value="{{available}}" selected>{{available}}</option>
