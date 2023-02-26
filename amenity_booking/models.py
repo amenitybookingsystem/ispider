@@ -323,13 +323,15 @@ class amenity_maintenance(models.Model):
         value = self.date
 
         value2 = (self.slot).amenity_name
+        value3 = (self.slot).slot
+        value4 = (self.time).timing
 
         if value <= today:
             raise ValidationError("Date should be tomorrow or later.")
 
         booked_dates=[]
 
-        x = booking_table.objects.filter(amenity_name=value2)
+        x = booking_table.objects.filter(amenity_name=value2, slot=value3, time=value4)
         temp = ''
 
         for i in x:
