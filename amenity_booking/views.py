@@ -470,6 +470,8 @@ def booking(request):
         d3 = today.strftime("%d/%m/%y")
         d3 = cdatetime.strptime(d3, "%d/%m/%y")
         x = cdatetime.strptime(x, "%d/%m/%y")
+        print(d3)
+        print(x)
 
         if(x>d3):
             no.append(i.amenity_name)
