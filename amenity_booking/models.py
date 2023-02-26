@@ -304,7 +304,7 @@ class filled(models.Model):
 class amenity_maintenance(models.Model):
     slot= models.ForeignKey(amenity_slots, on_delete=models.CASCADE, null=True)
     time = models.ForeignKey(amenity_timings, on_delete=models.CASCADE, null=True)
-    date = models.DateField(validators=[validate_date])
+    date = models.DateField()
 
     class Meta:
         verbose_name_plural = "8) Amenity Maintenance"
@@ -317,6 +317,35 @@ class amenity_maintenance(models.Model):
         super().clean()
         if self.slot.amenity_name != self.time.amenity_name:
             raise ValidationError("Slot and time must be associated with the same amenity")
+
+        today = timezone.now().date()
+
+        value = self.date
+
+        value2 = (self.slot).amenity_name
+
+        if value <= today:
+            raise ValidationError("Date should be tomorrow or later.")
+
+        booked_dates=[]
+
+        x = booking_table.objects.filter(amenity_name=value2)
+        temp = ''
+
+        for i in x:
+            temp = temp + str(i.date)
+            temp = temp[0:8]
+            temp = temp.replace('/','')
+            booked_dates.append(str(temp))
+            temp = ''
+
+        y = str(value)
+        y = y[-2] + y[-1] + y[-5] + y[-4] + y[2:4]
+        y = str(y)
+
+
+        if(y in booked_dates):
+            raise ValidationError("Date already booked by someone !")
 
 
 

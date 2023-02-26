@@ -465,15 +465,11 @@ def booking(request):
     for i in current:
 
         x = i.date
-        x = x.replace('/', '')
-        x = x[0:6]
-        x = x[2] + x[3] + x[4] + x[5] + x[0] + x[1]
-        x = int(x)
+        x = x[0:8]
         today = cdate.today()
-        d3 = today.strftime("%m%y%d")
-        d3 = int(d3)
-        print(x)
-        print(d3)
+        d3 = today.strftime("%d/%m/%y")
+        d3 = cdatetime.strptime(d3, "%d/%m/%y")
+        x = cdatetime.strptime(x, "%d/%m/%y")
 
         if(x>d3):
             no.append(i.amenity_name)
@@ -798,14 +794,14 @@ def getdata(request):
         val2 = val_list[1]
 
         booked = []
-        skr = []
+        skr = {'temp1':1,'temp2':2}
         fill = None 
         sog = None 
         tem = ''
         newfill2 = amenity_type.objects.get(name=val1)
         newfill2 = newfill2.housing_space
         total = int(newfill2)
-
+        tmm = ''
         book = booking_table.objects.filter(amenity_name=val1, slot=val2)
 
         for i in book:
@@ -814,13 +810,14 @@ def getdata(request):
                                         amenity_date=str(i.date), amenity_timing=str(i.time))
 
             if(fill.exists()):
-
+                tmm = str(i.date) + str(i.time)
                 sog = fill.values_list('available_space', flat=True)
                 sog = list(sog)
                 sog.sort()
                 tem = str(total-int(sog[0])) + '/' + str(total)
-                skr.append(tem)
+                skr[tmm] = tem
                 tem = ''
+        print(skr)
 
         maintenance = []
         te = amenity_slots.objects.get(slot=val2)

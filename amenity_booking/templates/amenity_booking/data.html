@@ -56,7 +56,7 @@
                         {% for t in time %}
                         {% with temp3=i|add:t %}
                         {% if temp3 in booked %}
-                        <td class="bg-danger text-center" style="width: 5%; color:white !important;">Booked {% cycle_list skr %}</td>
+                        <td class="bg-danger text-center" style="width: 5%; color:white !important;">Booked {{skr|hash:temp3}}</td>
                         {% elif temp3 in maintenance %}
                         <td class="bg-danger text-center" style="width: 5%; color:white !important;">Under Maintenance</td>
                         {% else %}

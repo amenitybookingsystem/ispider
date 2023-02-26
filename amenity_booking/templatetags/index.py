@@ -25,3 +25,7 @@ def cycle_list(parser, token):
         )
     node = CycleNode(arg)
     return node
+
+@register.filter('hash')
+def hash(h, key):
+    return h[key]
