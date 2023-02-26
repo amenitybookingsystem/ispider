@@ -465,7 +465,9 @@ def booking(request):
     for i in current:
 
         x = i.date
-        x = x[3:5] + x[6:8] + x[0:2] 
+        x = x.replace('/', '')
+        x = x[0:6]
+        x = x[2] + x[3] + x[4] + x[5] + x[0] + x[1]
         x = int(x)
         today = cdate.today()
         d3 = today.strftime("%m%y%d")
