@@ -398,7 +398,7 @@ def currentbooking(request):
 
     book = booking_table.objects.filter(username=request.user.username)
 
-    current_date = cdatetime.now().strftime('%d/%m/%y')
+    current_date = cdatetime.now().strftime('%m/%y/%d')
     current_date = current_date.replace('/', '')
     current_date = int(current_date)
 
@@ -410,6 +410,7 @@ def currentbooking(request):
         book_date = i.date
         book_date = book_date.replace('/', '')
         book_date = book_date[0:6]
+        book_date = book_date[2] + book_date[3] + book_date[4] + book_date[5] + book_date[0] + book_date[1]
         book_date = int(book_date)
         if(current_date>=book_date):
             completed_list.append(book_date)
